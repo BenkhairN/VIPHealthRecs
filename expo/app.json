@@ -25,7 +25,10 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "app.rork.u4t200pyufus5glhtyl4z"
+      "package": "app.rork.u4t200pyufus5glhtyl4z",
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
@@ -55,8 +58,9 @@
         "origin": "https://rork.com/"
       },
       "eas": {
-        "projectId": "0edc327d-ca7f-4084-8a42-ad82d44abc2e"
+        "projectId": "62896644-433c-41f6-a8d3-115d5d173b5f"
       }
-    }
+    },
+    "owner": "benkhair"
   }
 }
