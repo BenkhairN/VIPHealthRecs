@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -9,6 +9,7 @@ import {
   Alert,
   Animated,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Stack, useRouter } from 'expo-router';
 import {
   ChevronLeft,
@@ -183,11 +184,32 @@ const MINUTE_STEP = 5;
 
 // ─── Screen ───────────────────────────────────────────────────────────────────
 
+const REMINDERS_KEY = '@vip_reminders';
+
 export default function RemindersScreen() {
   const router = useRouter();
   const [reminders, setReminders] = useState<Reminder[]>(DEFAULT_REMINDERS);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
+
+  // Load saved reminders on mount
+  useEffect(() => {
+    AsyncStorage.getItem(REMINDERS_KEY)
+      .then(data => {
+        if (data) {
+          const parsed = JSON.parse(data);
+          if (Array.isArray(parsed)) {
+            // Merge saved enabled/hour/minute back into DEFAULT_REMINDERS
+            // (preserves icon refs which can't be serialized)
+            setReminders(DEFAULT_REMINDERS.map(def => {
+              const saved = parsed.find((s: any) => s.id === def.id);
+              return saved ? { ...def, enabled: saved.enabled, hour: saved.hour, minute: saved.minute } : def;
+            }));
+          }
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const toggleReminder = (id: string) => {
     setSaved(false);
@@ -219,10 +241,13 @@ export default function RemindersScreen() {
   const enabledCount = reminders.filter(r => r.enabled).length;
 
   const handleSave = () => {
+    // Persist only serializable fields (no icon refs)
+    const toSave = reminders.map(({ id, enabled, hour, minute }) => ({ id, enabled, hour, minute }));
+    AsyncStorage.setItem(REMINDERS_KEY, JSON.stringify(toSave)).catch(() => {});
     setSaved(true);
     setExpandedId(null);
     Alert.alert(
-      '✅ Reminders Saved',
+      'Reminders Saved',
       `${enabledCount} reminder${enabledCount !== 1 ? 's' : ''} are now active.`,
       [{ text: 'Great!', onPress: () => router.back() }]
     );

@@ -138,23 +138,16 @@ export default function MessageProviderScreen() {
 
   return (
     <>
-      <Stack.Screen
-        options={{
-          title: 'Message Provider',
-          headerLeft: () => (
-            <Pressable
-              onPress={() => router.back()}
-              hitSlop={12}
-              style={{ flexDirection: 'row', alignItems: 'center', gap: 4, paddingRight: 8 }}
-            >
-              <ChevronLeft size={22} color={colors.primary} />
-              <Text style={{ ...typography.callout, color: colors.primary, fontWeight: '600' }}>
-                Back
-              </Text>
-            </Pressable>
-          ),
-        }}
-      />
+      <Stack.Screen options={{ headerShown: false }} />
+
+      <View style={styles.header}>
+        <Pressable onPress={() => router.back()} hitSlop={12} style={styles.backBtn}>
+          <ChevronLeft size={22} color={colors.primary} />
+          <Text style={styles.backText}>Back</Text>
+        </Pressable>
+        <Text style={styles.headerTitle}>Message Provider</Text>
+        <View style={{ width: 60 }} />
+      </View>
 
       <ScrollView
         style={styles.screen}
@@ -360,6 +353,20 @@ function AutoInfoRow({ label, value }: { label: string; value: string }) {
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.background },
   content: { padding: spacing.xl },
+
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: colors.surface,
+    paddingHorizontal: spacing.xl,
+    paddingTop: 56,
+    paddingBottom: spacing.md,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.borderLight,
+  },
+  backBtn: { flexDirection: 'row', alignItems: 'center', gap: 2 },
+  backText: { ...typography.callout, color: colors.primary, fontWeight: '600' as const },
 
   // Header card
   headerCard: {
