@@ -81,7 +81,7 @@ export default function DashboardScreen() {
         <View style={s.header}>
           <View style={s.logoRow}>
             <Image 
-              source={require('../../../assets/images/icon.png')} 
+              source={require('../../../assets/images/icon-transparent.png')} 
               style={s.logoIcon} 
               resizeMode="contain" 
             />

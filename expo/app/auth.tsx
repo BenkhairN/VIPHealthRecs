@@ -136,7 +136,7 @@ export default function AuthScreen() {
           <View style={styles.topSection}>
             <Animated.View style={[styles.logoContainer, { transform: [{ scale: logoScale }] }]}>
               <View style={styles.logoInner}>
-                <Image source={require('../assets/images/icon.png')} style={{ width: 80, height: 80, borderRadius: 24 }} resizeMode="contain" />
+                <Image source={require('../assets/images/icon-transparent.png')} style={{ width: 80, height: 80 }} resizeMode="contain" />
               </View>
             </Animated.View>
 
@@ -317,8 +317,6 @@ const styles = StyleSheet.create({
   logoInner: {
     width: 80,
     height: 80,
-    borderRadius: 24,
-    backgroundColor: 'rgba(255,255,255,0.2)',
     alignItems: 'center',
     justifyContent: 'center',
   },
